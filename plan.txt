@@ -1,0 +1,131 @@
+MemoryMap Project Overview
+Project Goals
+MemoryMap is an innovative web application that bridges personal memories with local business information, creating an interactive and personalized mapping experience.
+Key Features
+
+User Account Management
+Personal Memory Pinning
+Business Location Pinning
+Integrated Map View
+AI-Powered Location Assistance
+
+Technical Architecture
+Frontend
+
+React.js for responsive user interface
+Google Maps JavaScript API for map rendering
+Tailwind CSS for styling
+State management with Redux
+React Router for navigation
+
+Backend
+
+Node.js with Express.js
+Authentication with JWT (JSON Web Tokens)
+Database: PostgreSQL with Sequelize ORM
+Gemini API integration for location assistance
+
+Authentication Flow
+
+User Registration
+Login
+Password Reset
+Account Management
+Secure Logout
+
+Memory Pinning System
+
+Private Pins (User Memories)
+
+Unique color coding
+Image upload
+Title and notes
+Edit and delete capabilities
+
+
+Public Pins (Business Locations)
+
+Business details
+Multiple image uploads
+Publicly discoverable
+
+
+
+Key Integrations
+
+Google Maps API
+
+Map rendering
+Geolocation services
+Pin placement
+
+
+Gemini API
+
+Conversational location information
+Intelligent location recommendations
+
+
+
+Database Schema
+Users Table
+
+id (Primary Key)
+username
+email
+password (hashed)
+created_at
+updated_at
+
+MemoryPins Table
+
+id (Primary Key)
+user_id (Foreign Key)
+latitude
+longitude
+title
+notes
+image_urls
+is_private
+created_at
+updated_at
+
+BusinessPins Table
+
+id (Primary Key)
+business_name
+owner_id (Foreign Key)
+latitude
+longitude
+description
+image_urls
+contact_info
+created_at
+updated_at
+
+Security Considerations
+
+Password hashing (bcrypt)
+JWT for authentication
+HTTPS encryption
+Input validation
+Rate limiting
+CORS configuration
+
+Recommended Development Workflow
+
+Setup project structure
+Implement authentication system
+Develop map integration
+Create memory pin functionality
+Implement business pin features
+Add Gemini API integration
+Comprehensive testing
+Deployment and monitoring
+
+Potential Future Enhancements
+
+Social sharing options
+Advanced search functionality
+Machine learning recommendations
+Mobile app development
