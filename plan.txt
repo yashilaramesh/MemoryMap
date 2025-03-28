@@ -103,15 +103,6 @@ contact_info
 created_at
 updated_at
 
-Security Considerations
-
-Password hashing (bcrypt)
-JWT for authentication
-HTTPS encryption
-Input validation
-Rate limiting
-CORS configuration
-
 Recommended Development Workflow
 
 Setup project structure
