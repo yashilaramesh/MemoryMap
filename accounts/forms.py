@@ -106,3 +106,14 @@ class ResetPasswordForm(forms.Form):
         if new_password and confirm_new_password and new_password != confirm_new_password:
             raise forms.ValidationError("New passwords do not match.")
         return cleaned_data
+    
+class ChangeUsernameForm(forms.Form):
+    new_username = forms.CharField(max_length=150, required=True)
+
+    def clean_new_username(self):
+        new_username = self.cleaned_data.get('new_username')
+
+        # Check if the username already exists
+        if CustomUser.objects.filter(username=new_username).exists():
+            raise forms.ValidationError("This username is already taken.")
+        return new_username

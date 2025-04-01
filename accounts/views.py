@@ -9,6 +9,8 @@ from .forms import CustomUserCreationForm
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth import get_user_model
 from .forms import ResetPasswordForm
+from .forms import ChangeUsernameForm
+from django.contrib import messages
 
 # Create your views here.
 
@@ -106,3 +108,20 @@ def resetpassword(request):
 
     template_data['form'] = form
     return render(request, 'accounts/resetpassword.html', {'template_data': template_data})
+
+@login_required
+def change_username(request):
+    if request.method == 'POST':
+        form = ChangeUsernameForm(request.POST)
+        if form.is_valid():
+            new_username = form.cleaned_data['new_username']
+            
+            # Update the current user's username
+            request.user.username = new_username
+            request.user.save()
+            messages.success(request, "Your username has been updated successfully!")
+            return redirect('home.index')
+    else:
+        form = ChangeUsernameForm()
+
+    return render(request, 'accounts/change_username.html', {'form': form})
