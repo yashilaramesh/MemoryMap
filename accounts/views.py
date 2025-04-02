@@ -11,6 +11,9 @@ from django.contrib.auth import get_user_model
 from .forms import ResetPasswordForm
 from .forms import ChangeUsernameForm
 from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
+from .forms import CustomPasswordChangeForm
+
 
 # Create your views here.
 
@@ -125,3 +128,18 @@ def change_username(request):
         form = ChangeUsernameForm()
 
     return render(request, 'accounts/change_username.html', {'form': form})
+
+@login_required
+def change_password(request):
+    if request.method == "POST":
+        form = CustomPasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            request.user.set_password(form.cleaned_data["new_password"])
+            request.user.save()
+            update_session_auth_hash(request, request.user)  # Prevents logout after password change
+            messages.success(request, "Your password has been changed successfully.")
+            return redirect("home.index")  # Redirect to profile page or any other page
+    else:
+        form = CustomPasswordChangeForm(request.user)
+
+    return render(request, "accounts/change_password.html", {"form": form})

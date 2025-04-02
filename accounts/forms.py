@@ -3,6 +3,8 @@ from django.forms.utils import ErrorList
 from django import forms
 from .models import CustomUser
 from django.utils.safestring import mark_safe
+from django.contrib.auth.hashers import check_password
+
 
 
 SECURITY_QUESTIONS = [
@@ -110,10 +112,45 @@ class ResetPasswordForm(forms.Form):
 class ChangeUsernameForm(forms.Form):
     new_username = forms.CharField(max_length=150, required=True)
 
-    def clean_new_username(self):
+    def clean(self):
         new_username = self.cleaned_data.get('new_username')
 
         # Check if the username already exists
         if CustomUser.objects.filter(username=new_username).exists():
             raise forms.ValidationError("This username is already taken.")
         return new_username
+    
+class CustomPasswordChangeForm(forms.Form):
+    old_password = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+        label="Old Password"
+    )
+    new_password = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+        label="New Password"
+    )
+    confirm_new_password = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+        label="Confirm New Password"
+    )
+
+    def __init__(self, user, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.user = user
+
+    def clean_old_password(self):
+        old_password = self.cleaned_data.get("old_password")
+        if not check_password(old_password, self.user.password):
+            raise forms.ValidationError("Old password is incorrect.")
+        return old_password
+
+    def clean(self):
+        cleaned_data = super().clean()
+        new_password = cleaned_data.get("new_password")
+        confirm_new_password = cleaned_data.get("confirm_new_password")
+
+        if new_password and confirm_new_password and new_password != confirm_new_password:
+            raise forms.ValidationError("New passwords do not match.")
+
+        return cleaned_data
+    
