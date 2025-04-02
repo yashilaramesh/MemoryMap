@@ -56,17 +56,16 @@ class CustomUserCreationForm(UserCreationForm):
     
     def save(self, commit=True):
         user = super().save(commit=False)
-        # password1 = self.cleaned_data['password1']
-        # user.set_password(password1)
-        user.securityQ1 = self.cleaned_data['security_question_1']
-        user.securityA1 = self.cleaned_data['security_answer_1']
-        user.securityQ2 = self.cleaned_data['security_question_2']
-        user.securityA2 = self.cleaned_data['security_answer_2']
+        user.securityQ1 = self.cleaned_data.get('security_question_1')  # Use get() to prevent KeyError
+        user.securityA1 = self.cleaned_data.get('security_answer_1')
+        user.securityQ2 = self.cleaned_data.get('security_question_2')
+        user.securityA2 = self.cleaned_data.get('security_answer_2')
+        
         if commit:
             user.save()
-        # custom_user = CustomUser.objects.create(user=user, securityQ1=securityQ1, securityA1=securityA1, securityQ2=securityQ2, securityA2=securityA2)
-            
+        
         return user
+
     
 class ResetPasswordForm(forms.Form):
     username = forms.CharField(

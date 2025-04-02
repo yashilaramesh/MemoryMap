@@ -32,25 +32,29 @@ def login(request):
             auth_login(request, user)
             return redirect('home.index')
 
+from django.contrib.auth.hashers import make_password
+
 def signup(request):
     template_data = {'title': 'Sign Up'}
+    
     if request.method == 'GET':
         template_data['form'] = CustomUserCreationForm()
         return render(request, 'accounts/signup.html', {'template_data': template_data})
+    
     elif request.method == 'POST':
         form = CustomUserCreationForm(request.POST, error_class=CustomErrorList)
         if form.is_valid():
-            user = form.save(commit=False)
-            user.save()
+            user = form.save(commit=False)  # Save without committing to modify fields
+            
+            # Correct field names
+            user.securityQ1 = form.cleaned_data['security_question_1']
+            user.securityQ2 = form.cleaned_data['security_question_2']
+            user.securityA1 = make_password(form.cleaned_data['security_answer_1']) 
+            user.securityA2 = make_password(form.cleaned_data['security_answer_2'])
 
-            # Uncomment and fix the security question and answer part
-            user.securityQ1 = form.cleaned_data['securityQ1']
-            user.securityQ2 = form.cleaned_data['securityQ2']
-            user.securityA1 = make_password(form.cleaned_data['securityA1'])  # Hash the answer
-            user.securityA2 = make_password(form.cleaned_data['securityA2'])  # Hash the answer
-            user.save()
-
+            user.save()  # Save user after setting fields
             return redirect('accounts.login')
+        
         else:
             template_data['form'] = form
             return render(request, 'accounts/signup.html', {'template_data': template_data})
@@ -62,11 +66,10 @@ def resetpassword(request):
         form = ResetPasswordForm(request.POST)
         if form.is_valid():
             username = form.cleaned_data['username']
-            security_question_1 = form.cleaned_data['security_question_1']
-            security_answer_1 = form.cleaned_data['security_answer_1']
-            security_question_2 = form.cleaned_data['security_question_2']
-            security_answer_2 = form.cleaned_data['security_answer_2']
-            new_password = form.cleaned_data['new_password']
+            user_answers = {
+                form.cleaned_data['security_question_1']: form.cleaned_data['security_answer_1'],
+                form.cleaned_data['security_question_2']: form.cleaned_data['security_answer_2']
+            }
 
             # Use get_user_model() instead of directly importing User
             User = get_user_model()
@@ -75,11 +78,20 @@ def resetpassword(request):
             except User.DoesNotExist:
                 template_data['error'] = "Username not found."
                 template_data['form'] = form
-                return render(request, 'accounts/resetpassword.html', {'template_data': template_data, 'form': form})
+                return render(request, 'accounts/resetpassword.html', template_data)
 
-            # Use check_password to compare the security answers
-            if check_password(security_answer_1, user.securityA1) and check_password(security_answer_2, user.securityA2):
-                user.set_password(new_password)
+            stored_answers = {
+                user.securityQ1: user.securityA1,
+                user.securityQ2: user.securityA2
+            }
+
+            # Check if user-provided answers match the stored answers (regardless of order)
+            match_count = sum(
+                check_password(user_answers[q], stored_answers[q]) for q in user_answers if q in stored_answers
+            )
+
+            if match_count == 2:  # Both answers must match
+                user.set_password(form.cleaned_data['new_password'])
                 user.save()
                 return redirect('accounts.login')
             else:
@@ -89,7 +101,7 @@ def resetpassword(request):
         form = ResetPasswordForm()
 
     template_data['form'] = form
-    return render(request, 'accounts/resetpassword.html', {'template_data': template_data})
+    return render(request, 'accounts/resetpassword.html', template_data)
 
 @login_required
 def change_username(request):
