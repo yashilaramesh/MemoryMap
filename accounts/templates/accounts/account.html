@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="p-3 mt-4">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow p-3 mb-4 rounded">
+                    <div class="card-body">
+                        <h2>Account Settings</h2>
+                        <hr />
+
+                        {% if messages %}
+                        <div class="alert alert-success">
+                            {% for message in messages %}
+                            {{ message }}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+
+                        <!-- Change Username Form -->
+                        <h3>Change Username</h3>
+                        <form method="POST">
+                            {% csrf_token %}
+                            {{ username_form.as_p }}
+                            <div class="text-center">
+                                <button type="submit" name="change_username" class="btn bg-dark text-white">Change Username</button>
+                            </div>
+                        </form>
+
+                        <hr class="my-4">
+
+                        <!-- Change Password Form -->
+                        <h3>Change Password</h3>
+                        <form method="POST">
+                            {% csrf_token %}
+                            {{ password_form.as_p }}
+                            <div class="text-center">
+                                <button type="submit" name="change_password" class="btn bg-dark text-white">Change Password</button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
