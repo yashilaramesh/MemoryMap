@@ -112,7 +112,7 @@ class ResetPasswordForm(forms.Form):
 class ChangeUsernameForm(forms.Form):
     new_username = forms.CharField(max_length=150, required=True)
 
-    def clean(self):
+    def clean_new_username(self):
         new_username = self.cleaned_data.get('new_username')
 
         # Check if the username already exists

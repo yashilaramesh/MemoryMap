@@ -114,6 +114,9 @@ def resetpassword(request):
 
 @login_required
 def change_username(request):
+
+    messages.get_messages(request).used = True
+
     if request.method == 'POST':
         form = ChangeUsernameForm(request.POST)
         if form.is_valid():
@@ -138,7 +141,7 @@ def change_password(request):
             request.user.save()
             update_session_auth_hash(request, request.user)  # Prevents logout after password change
             messages.success(request, "Your password has been changed successfully.")
-            return redirect("home.index")  # Redirect to profile page or any other page
+            return redirect("home.index") 
     else:
         form = CustomPasswordChangeForm(request.user)
 
