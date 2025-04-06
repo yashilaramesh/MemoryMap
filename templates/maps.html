@@ -1,9 +1,10 @@
+{% load static %}
+<img src="{% static 'images/arrow.png' %}" style="width: 30px" />
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <link rel="stylesheet" href="reportlist.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -20,17 +21,19 @@
     </div>
 
     <div id="contentWrapper">
-      <div id="map"> </div>
+      <div id="map" style="height: 600px; width: 100%;"></div>
     <a id="back" href="index.html" style="text-decoration: none">
-      <img src="images/arrow.png" style="width: 30px" />
+      
     </a>
 
       <div>
+      <script src="{% static 'js/maps.js' %}"></script>
         <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyClxmOnTy2zT4cbTcQd6B5wczbj-aXZ2O4&libraries=maps,marker&v=beta"
-        defer
-      ></script>
-      <script src="maps.js" type="module"></script>
+          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8-FHAr6PgSYJdNPUnK7HsaSK0bjDhMbM&callback=initMap"
+          async
+          defer
+        ></script>
+
 
 
         <!-- <gmp-map
