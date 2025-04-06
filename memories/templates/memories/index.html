@@ -7,6 +7,17 @@
       <div class="col mx-auto mb-3">
         <h2>List of Memories</h2>
         <hr />
+        <div class="row">
+          {% for memory in template_data.memories %}
+          <div class="col-md-4 col-lg-3 mb-2">
+            <div class="p-2 card align-items-center pt-4">
+              <div class="card-body text-center">
+                {{ memory.title }}
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
       </div>
     </div>
 </div>

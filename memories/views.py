@@ -11,7 +11,7 @@ memories = [
     }
 ]
 
-def index(request):
+def memoriesMethod(request):
     template_data = {}
     template_data['title'] = 'Memories'
     template_data['memories'] = memories
