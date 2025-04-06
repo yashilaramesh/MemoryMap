@@ -11,8 +11,13 @@
           {% for memory in template_data.memories %}
           <div class="col-md-4 col-lg-3 mb-2">
             <div class="p-2 card align-items-center pt-4">
+              <!-- <img src="{% static 'img/about.jpg' %}"
+              class="card-img-top rounded"> -->
               <div class="card-body text-center">
+                <a href="{% url 'memories.show' id=memory.id %}"
+                class="btn bg-dark text-white">
                 {{ memory.title }}
+              </a>
               </div>
             </div>
           </div>
