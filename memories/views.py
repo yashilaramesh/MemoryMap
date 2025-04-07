@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from .models import Memory
 
 memories = [
     {
@@ -11,17 +12,17 @@ memories = [
     }
 ]
 
-def memoriesMethod(request):
+def index(request):
     template_data = {}
     template_data['title'] = 'Memories'
-    template_data['memories'] = memories
+    template_data['memories'] = Memory.objects.all
     return render(request, 'memories/index.html',
                   {'template_data': template_data})
 
 def show(request, id):
-    memory = memories[id-1]
+    memory = Memory.objects.get(id=id)
     template_data = {}
-    template_data['title'] = memory['title']
+    template_data['title'] = memory.title
     template_data['memory'] = memory
     return render(request, 'memories/show.html',
                   {'template_data' : template_data})
