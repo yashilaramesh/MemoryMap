@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<div class="p-3">
+  <div class="container">
+    <div class="row mt-3">
+      <div class="col-md-6 mx-auto mb-3">
+        <h2>{{template_data.memory.title}}</h2>
+        <hr />
+        <p><b>Date:</b> {{template_data.memory.date}}</p>
+        <p><b>Description:</b> {{template_data.memory.description}}</p>
+
+
+
+      </div>
+      <div class="col-md-6 mx-auto mb-3 text-center">
+        <img src="{% static 'img/about.jpg' %}"
+          class="rounded" />
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
