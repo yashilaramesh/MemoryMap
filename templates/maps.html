@@ -1,0 +1,75 @@
+{% load static %}
+<img src="{% static 'images/arrow.png' %}" style="width: 30px" />
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <title>Category List</title>
+  </head>
+  <body>
+    
+    <div id="titleWrapper">
+      <div id="title">Memories</div>
+    </div>
+
+    <div id="contentWrapper">
+      <div id="map" style="height: 600px; width: 100%;"></div>
+    <a id="back" href="index.html" style="text-decoration: none">
+      
+    </a>
+
+      <div>
+      <script src="{% static 'js/maps.js' %}"></script>
+        <script
+          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8-FHAr6PgSYJdNPUnK7HsaSK0bjDhMbM&callback=initMap"
+          async
+          defer
+        ></script>
+
+
+
+        <!-- <gmp-map
+          id="map"
+          center="43.4142989,-124.2301242"
+          zoom="10"
+          map-id="DEMO_MAP_ID"
+          style="height: 600px; width: 800px"
+        >
+          <gmp-advanced-marker
+            position="37.4220656,-122.0840897"
+            title="Mountain View, CA"
+          ></gmp-advanced-marker>
+          <gmp-advanced-marker
+            position="47.648994,-122.3503845"
+            title="Seattle, WA"
+          ></gmp-advanced-marker>
+        </gmp-map> -->
+
+        
+
+      </div>
+
+      <!-- list -->
+      <div id="listWrapper">
+        <!-- map it and make this link to detailed page -->
+        <div id="listContentWrapper">
+          <a
+            id="listLink"
+            href="detail.html"
+            style="text-decoration: none; color: white"
+          >
+            Memories list
+          </a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
