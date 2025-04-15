@@ -22,7 +22,8 @@ chat = model.start_chat(history=[
     }
 ])
 
-
+def chatbot_page(request):
+    return render(request, 'chatbot/chatbot.html')
 
 @csrf_exempt
 def chatbot_query(request):
