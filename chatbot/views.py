@@ -5,10 +5,22 @@ import json
 import os
 import google.generativeai as genai
 
-# Load API key securely
+# Load your API key
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
-model = genai.GenerativeModel("gemini-pro")
+# Use Gemini 1.5 Pro model
+model = genai.GenerativeModel("models/gemini-1.5-pro-latest")
+
+# Start a chat session and include your "system message" as a user message
+chat = model.start_chat(history=[
+    {
+        "role": "user",
+        "parts": [
+            "You are a friendly travel assistant. Only respond to travel-related questions. "
+            "If someone asks something unrelated to travel, gently explain that you're here to help with trips, destinations, planning, or exploring new places."
+        ]
+    }
+])
 
 def chatbot_page(request):
     return render(request, 'chatbot/chatbot.html')
@@ -19,15 +31,9 @@ def chatbot_query(request):
         data = json.loads(request.body)
         message = data.get("message", "")
 
-        # Optional: force travel-only questions
-        if "travel" not in message.lower():
-            return JsonResponse({
-                "reply": "I’m your travel assistant. Ask me about destinations, planning, or things to do!"
-            })
-
         try:
-            response = model.generate_content(message)
-            return JsonResponse({ "reply": response.text })
+            response = chat.send_message(message)
+            return JsonResponse({"reply": response.text})
         except Exception as e:
-            return JsonResponse({ "reply": "Oops! Something went wrong with Gemini." })
-
+            print("🔥 Gemini error:", repr(e))
+            return JsonResponse({"reply": "Oops! Something went wrong with Gemini."})
