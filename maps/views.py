@@ -2,4 +2,4 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 def maps(request):
-    return HttpResponse("Hello world!")
+    return render(request, "maps.html")

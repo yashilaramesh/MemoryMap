@@ -23,5 +23,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('home.urls')),
     path('memories/', include('memories.urls')),
+    path("chatbot/", include("chatbot.urls")),
 
 ]
