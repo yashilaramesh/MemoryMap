@@ -1,29 +1,31 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from .models import Memory
+from django.contrib.auth.decorators import login_required
 
-memories = [
-    {
-        'id': 1, 'title': 'testing123', 'date': 12, 
-        'description': 'bruh i hate this'
-    },
-    {
-        'id': 2, 'title': 'blahblah', 'date': 444, 
-        'description': 'fuck this shit'
-    }
-]
-
-def memoriesMethod(request):
+def index(request):
     template_data = {}
     template_data['title'] = 'Memories'
-    template_data['memories'] = memories
+    template_data['memories'] = Memory.objects.all
     return render(request, 'memories/index.html',
                   {'template_data': template_data})
 
 def show(request, id):
-    memory = memories[id-1]
+    memory = Memory.objects.get(id=id)
     template_data = {}
-    template_data['title'] = memory['title']
+    template_data['title'] = memory.title
     template_data['memory'] = memory
     return render(request, 'memories/show.html',
                   {'template_data' : template_data})
 
-#this is a comment for github purposes
+#@login_required
+def create_memory(request):
+    if request.method == 'POST' and request.POST['title']!= '' and request.POST['date']!= '' and request.POST['description']!= '':
+        memory = Memory()
+        memory.title = request.POST['title']
+        #memory.user = request.user
+        memory.date = request.POST['date']
+        memory.description = request.POST['description']
+        memory.save()
+        return redirect('memories')
+    else:
+        return redirect('memories')
