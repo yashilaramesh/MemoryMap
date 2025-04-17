@@ -52,9 +52,10 @@ def signup(request):
             user.securityA1 = make_password(form.cleaned_data['security_answer_1']) 
             user.securityA2 = make_password(form.cleaned_data['security_answer_2'])
 
-            user.save()  # Save user after setting fields
-            return redirect('accounts/login')
-        
+            user.save()
+            auth_login(request, user)
+            return redirect('home.index')
+
         else:
             template_data['form'] = form
             return render(request, 'accounts/signup.html', {'template_data': template_data})
