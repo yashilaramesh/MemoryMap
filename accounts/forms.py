@@ -41,30 +41,46 @@ class CustomUserCreationForm(UserCreationForm):
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         label="Answer 2"
     )
+    business = forms.BooleanField(
+        required=False,
+        label="I am a business account",
+        widget=forms.CheckboxInput(attrs={'class': 'form-check-input'})
+    )
+
 
     class Meta:
-        model = CustomUser
-        fields = ('username', 'password1','password2', 'security_question_1', 'security_answer_1', 'security_question_2', 'security_answer_2')
-    
-    def __init__(self, *args, **kwargs):
-        super(CustomUserCreationForm, self).__init__(*args, **kwargs)
-        for fieldname in self.fields:
-            self.fields[fieldname].help_text = None
-            self.fields[fieldname].widget.attrs.update(
-                {'class': 'form-control'}
+            model = CustomUser
+            fields = (
+                'username', 'password1', 'password2',
+                'security_question_1', 'security_answer_1',
+                'security_question_2', 'security_answer_2',
+                'business'
             )
-    
+
+
+    def __init__(self, *args, **kwargs):
+            super(CustomUserCreationForm, self).__init__(*args, **kwargs)
+            for fieldname in self.fields:
+                self.fields[fieldname].help_text = None
+                self.fields[fieldname].widget.attrs.update(
+                    {'class': 'form-control'}
+                )
+                self.fields['business'].widget.attrs.update({'class': 'form-check-input'})
+
+
     def save(self, commit=True):
-        user = super().save(commit=False)
-        user.securityQ1 = self.cleaned_data.get('security_question_1')  # Use get() to prevent KeyError
-        user.securityA1 = self.cleaned_data.get('security_answer_1')
-        user.securityQ2 = self.cleaned_data.get('security_question_2')
-        user.securityA2 = self.cleaned_data.get('security_answer_2')
-        
-        if commit:
-            user.save()
-        
-        return user
+            user = super().save(commit=False)
+            user.securityQ1 = self.cleaned_data.get('security_question_1')  # Use get() to prevent KeyError
+            user.securityA1 = self.cleaned_data.get('security_answer_1')
+            user.securityQ2 = self.cleaned_data.get('security_question_2')
+            user.securityA2 = self.cleaned_data.get('security_answer_2')
+            user.business = self.cleaned_data.get('business', False)
+
+
+            if commit:
+                user.save()
+
+            return user
 
     
 class ResetPasswordForm(forms.Form):
@@ -136,6 +152,7 @@ class CustomPasswordChangeForm(forms.Form):
     def __init__(self, user, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.user = user
+
 
     def clean_old_password(self):
         old_password = self.cleaned_data.get("old_password")

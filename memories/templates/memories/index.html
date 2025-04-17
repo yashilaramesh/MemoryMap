@@ -5,7 +5,15 @@
   <div class="container">
     <div class="row mt-3">
       <div class="col mx-auto mb-3">
-        <h2>List of Memories</h2>
+          <form method="get" class="mb-3">
+              <label>
+                  <input type="checkbox" name="public" value="1" {% if template_data.show_public %}checked{% endif %}>
+                  Show Public Memories
+              </label>
+              <button type="submit" class="btn btn-sm btn-outline-secondary ms-2">Apply</button>
+          </form>
+
+          <h2>List of Memories</h2>
         <hr />
         <div class="row">
           {% for memory in template_data.memories %}
@@ -18,6 +26,12 @@
                 class="btn bg-dark text-white">
                 {{ memory.title }}
               </a>
+                  {% if memory.is_public %}
+                  <p class="text-muted mt-2"><small>Public by {{ memory.business_label }}</small></p>
+                  {% else %}
+                  <p class="text-muted mt-2"><small>Private</small></p>
+                  {% endif %}
+
               </div>
             </div>
           </div>
@@ -30,8 +44,9 @@
                   <div class="card-body">
                   <b class="text-start">Create a Memory
                   </b><br /><br />
-                  <form method="POST" action="{% url 'memories.create'%}">
-                  {% csrf_token %}
+                      <form method="POST" action="{% url 'memories.create'%}" enctype="multipart/form-data">
+
+                      {% csrf_token %}
                   <p>
                   <label for="Title">Title:</label>
                   <textarea name="title" required
@@ -39,7 +54,7 @@
                   id="title"></textarea>
                   </p>
                   <p>
-                  <label for="date">Date:</label>
+                  <label for="date">Date (YYYY-MM-DD):</label>
                   <textarea name="date" required
                   class="form-control"
                   id="date"></textarea>
@@ -50,7 +65,12 @@
                   class="form-control"
                   id="description"></textarea>
                   </p>
-                  <div class="text-center">
+                          <p>
+                          <label for="image">Image:</label>
+                          <input type="file" name="image" class="form-control" id="image" accept="image/*" />
+                      </p>
+
+                          <div class="text-center">
                   <button type="submit"
                           class="btn bg-dark text-white">
                           Add Memory

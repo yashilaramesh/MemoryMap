@@ -14,19 +14,41 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
+                <ul class="navbar-nav me-auto">
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'maps' %}">Maps</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'accounts:accounts' %}">Account</a>
+                        <a class="nav-link" href="{% url 'memories' %}">Memories</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'accounts:account' %}">Account</a>
+                    </li>
+                    {% endif %}
+                </ul>
+
+                <ul class="navbar-nav ms-auto">
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <span class="nav-link disabled">
+  Welcome, {{ user.username }}{% if user.business %} (Business){% endif %}
+</span>
 
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'memories' %}">Memories</a>
+                        <a class="nav-link" href="{% url 'accounts:logout' %}">Logout</a>
                     </li>
-
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'accounts:login' %}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'accounts:signup' %}">Sign Up</a>
+                    </li>
+                    {% endif %}
                 </ul>
+
             </div>
         </div>
     </nav>

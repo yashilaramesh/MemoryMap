@@ -8,5 +8,5 @@ urlpatterns = [
     path('login/', views.login, name='login'),
     path('logout/', views.logout, name='logout'),
     path('resetpassword', views.resetpassword, name='resetpassword'),
-    path('account/', views.account, name='accounts'),  # Keep only this one for account management
+    path('account/', views.account, name='account'),  # Keep only this one for account management
 ]
