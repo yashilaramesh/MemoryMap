@@ -1,7 +1,7 @@
 /* Typography & Layout */
 body {
   font-family: 'Inter', sans-serif;
-  background-color: #fffdf5;  /* soft cream */
+  background-color: #FFF9DB; /* light beach yellow */
   color: #1f1f1f;
   margin: 0;
   padding: 0;
@@ -13,7 +13,7 @@ a {
 
 /* Navbar */
 .navbar {
-  background-color: #1e3a8a !important; /* deep indigo */
+  background-color: #66C7D9 !important; /* soft aqua blue */
 }
 
 .navbar-brand,
@@ -23,7 +23,7 @@ a {
 }
 
 .nav-link:hover {
-  color: #facc15 !important; /* amber on hover */
+  color: #FEE191 !important; /* sandy yellow hover */
 }
 
 /* Buttons */
@@ -32,21 +32,21 @@ a {
 }
 
 .btn.bg-dark {
-  background-color: #1e3a8a !important;
+  background-color: #66C7D9 !important;
   border: none;
 }
 
 .btn.bg-dark:hover {
-  background-color: #3743b2 !important;
+  background-color: #A3DFF2 !important;
 }
 
 .btn-outline-secondary {
-  color: #1e3a8a;
-  border-color: #1e3a8a;
+  color: #66C7D9;
+  border-color: #66C7D9;
 }
 
 .btn-outline-secondary:hover {
-  background-color: #1e3a8a;
+  background-color: #66C7D9;
   color: white;
 }
 
@@ -62,12 +62,12 @@ a {
 }
 
 .card-body {
-  background-color: #fcfcfc;
+  background-color: #fffbe5;
 }
 
 /* Memory List Styling */
 #listContentWrapper {
-  background-color: #facc15; /* amber */
+  background-color: #FEE191;
   padding: 12px 20px;
   border-radius: 10px;
   margin-top: 20px;
@@ -76,13 +76,13 @@ a {
 }
 
 #listContentWrapper:hover {
-  background-color: #eab308; /* darker yellow on hover */
+  background-color: #FDD76E;
 }
 
 #listLink {
   font-size: 1rem;
   font-weight: 500;
-  color: #1e3a8a;
+  color: #66C7D9;
 }
 
 /* Chatbot UI */
@@ -108,19 +108,19 @@ a {
 }
 
 .message.user span {
-  background-color: #3b82f6; /* sky blue */
+  background-color: #B0E0E6; /* powder blue */
   color: white;
 }
 
 .message.bot span {
-  background-color: #fff4c2; /* soft yellow */
+  background-color: #FFF1B2;
   color: #1f1f1f;
 }
 
 .chat-input {
   display: flex;
   border-top: 1px solid #ccc;
-  background-color: #fff;
+  background-color: #FFF9DB;
 }
 
 #chat-input {
@@ -131,7 +131,7 @@ a {
 }
 
 .chat-input button {
-  background-color: #1e3a8a;
+  background-color: #66C7D9;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -140,7 +140,7 @@ a {
 }
 
 .chat-input button:hover {
-  background-color: #3743b2;
+  background-color: #A3DFF2;
 }
 
 /* Chat Icon */
@@ -167,11 +167,13 @@ a {
 
 /* Optional Highlight Style */
 .highlight {
-  background-color: #facc15;
-  color: #1e3a8a;
+  background-color: #FEE191;
+  color: #66C7D9;
   padding: 5px 10px;
   border-radius: 5px;
 }
+
+/* Carousel Images */
 .carousel-img {
   width: 32%;
   height: 250px;
