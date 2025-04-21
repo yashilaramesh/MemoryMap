@@ -33,6 +33,10 @@ def memory_locations(request):
             'lat': memory.latitude,
             'lng': memory.longitude,
             'title': memory.title,
+            'description': memory.description,
+            'date': memory.date.strftime("%B %d, %Y"),
+            'image_url': memory.image.url if memory.image else None,
+            'business_label': memory.business_label,
             'is_owner': memory.owner == request.user
         }
         for memory in memories
