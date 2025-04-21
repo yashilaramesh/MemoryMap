@@ -30,7 +30,29 @@
     </a>
 
       <div>
-      <script src="{% static 'js/maps.js' %}"></script>
+      <script>
+        function initMap(){
+          const map = new google.maps.Map(document.getElementById("map"), {
+            center: {lat: 33.7756, lng: -84.3962},
+            zoom: 13
+          });
+      
+          fetch("{% url 'memory_locations' %}")
+            .then(response => response.json())
+            .then(locations => {
+              locations.forEach((loc, index) => {
+                new google.maps.Marker({
+                  position: { lat: loc.lat, lng: loc.lng },
+                  map,
+                  title: loc.title || `Marker ${index + 1}`,
+                });
+              });
+            })
+            .catch(err => console.error("Error loading markers:", err));
+        }
+      
+        window.initMap = initMap;
+      </script>
         <script
           src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8-FHAr6PgSYJdNPUnK7HsaSK0bjDhMbM&callback=initMap"
           async

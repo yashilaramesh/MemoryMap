@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from .models import Memory
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
+from django.http import JsonResponse
 
 def index(request):
     template_data = {'title': 'Memories'}
@@ -23,6 +25,18 @@ def show(request, id):
     template_data['memory'] = memory
     return render(request, 'memories/show.html',
                   {'template_data' : template_data})
+
+def memory_locations(request):
+    memories = Memory.objects.filter(Q(is_public=True) | Q(owner=request.user)) 
+    data = [
+        {
+            'lat': memory.latitude,
+            'lng': memory.longitude,
+            'title': memory.title
+        }
+        for memory in memories
+    ]
+    return JsonResponse(data, safe=False)
 
 @login_required
 def create_memory(request):
