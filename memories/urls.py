@@ -3,6 +3,8 @@ from . import views
 urlpatterns = [
     path('memories/', views.index, name='memories'),
     path('<int:id>/', views.show, name = 'memories.show'),
-    path('memories/create/', views.create_memory,
-        name='memories.create')
+    path('<int:id>/edit/', 
+         views.edit, name='memories.edit'),
+    path('<int:id>/delete/', views.delete, name='memories.delete'),
+    path('memories/create/', views.create_memory, name='memories.create'),
 ]

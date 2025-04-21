@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Memory
 from django.contrib.auth.decorators import login_required
 
@@ -17,7 +17,7 @@ def index(request):
 
 
 def show(request, id):
-    memory = Memory.objects.get(id=id)
+    memory = get_object_or_404(Memory, id=id)
     template_data = {}
     template_data['title'] = memory.title
     template_data['memory'] = memory
@@ -51,3 +51,34 @@ def create_memory(request):
         return redirect('memories')
     else:
         return redirect('memories')
+    
+@login_required
+def edit(request, id):
+    memory = get_object_or_404(Memory, id=id, owner=request.user)
+    
+    if request.method == 'POST':
+        memory.title = request.POST['title']
+        template_data['memory'] = memory
+        
+        # Handle image update
+        if 'image' in request.FILES:
+            memory.image = request.FILES['image']
+        
+        memory.save()
+        return redirect('memories.show', id=memory.id)
+    
+    template_data = {
+        'title': f"Edit {memory.title}",
+        'memory': memory
+    }
+    return render(request, 'memories/edit.html', {'template_data': template_data})
+    
+@login_required
+def delete(request, id):
+    memory = get_object_or_404(Memory, id=id, owner=request.user)
+    
+    if request.method == 'POST':
+        memory.delete()
+        return redirect('memories')
+    
+    return render(request, 'memories/confirm_delete.html', {'memory': memory})

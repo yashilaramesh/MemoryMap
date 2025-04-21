@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="p-3">
+    <div class="container">
+      <div class="row mt-3">
+        <div class="col-md-6 mx-auto mb-3">
+            <h2>Edit Memory</h2>
+            <hr />
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <p>
+                  <label for="title">Title:</label>
+                  <textarea name="title" required class="form-control">{{ template_data.memory.title }}</textarea>
+                </p>
+                <p>
+                    <label for="date">Date:</label>
+                    <input type="date" name="date" required class="form-control" value="{{ template_data.memory.date }}">
+                </p>
+                <p>
+                    <label for="description">Description:</label>
+                    <textarea name="description" required class="form-control" id="description">{{ template_data.memory.description }}</textarea>
+                </p>
+                <p>
+                    <label for="image">Image:</label>
+                    <input type="file" name="image" class="form-control" id="image" accept="image/*" />
+                    {% if template_data.memory.image %}
+                        <img src="{{ template_data.memory.image.url }}" class="img-fluid mt-2" />
+                    {% endif %}
+                </p>  
+                <div class="text-start">
+                  <button type="submit" class="btn bg-dark text-white">Save Changes</button>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+</div>
+{% endblock content %}
