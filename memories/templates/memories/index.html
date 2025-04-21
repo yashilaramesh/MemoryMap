@@ -44,11 +44,11 @@
                   <div class="card-body">
                   <b class="text-start">Create a Memory
                   </b><br /><br />
-                  <form method="POST" action="{% url 'memories.create'%}" enctype="multipart/form-data">
+                  <form method="POST" action="{% url 'memories.create'%}" enctype="multipart/form-data"  onsubmit="return geocodeAddress(event);">
                     {% csrf_token %}
                     <p>
                       <label for="title">Title:</label>
-                      <input type="text" name="title" required class="form-control" />
+                      <input type="text" name="title" required class="form-control"  />
                     </p>
                     <p>
                       <label for="date">Date:</label>
@@ -59,11 +59,54 @@
                       <textarea name="description" required class="form-control"></textarea>
                     </p>
                     <p>
+                      <label for="address">Address:</label>
+                      <input type="text" name="address" class="form-control" id="address" placeholder="123 Main St, City, Country" />
+                    </p>
+                  
+                    <!-- Hidden fields for lat/lng -->
+                    <input type="hidden" name="latitude" id="latitude" />
+                    <input type="hidden" name="longitude" id="longitude" />
+                    <p>
                       <label for="image">Image:</label>
                       <input type="file" name="image" class="form-control" />
                     </p>
                     <button type="submit" class="btn btn-primary">Create Memory</button>
                   </form>
+                  <!-- Load Google Maps API JS -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8-FHAr6PgSYJdNPUnK7HsaSK0bjDhMbM&libraries=places"></script>
+
+<script>
+  function geocodeAddress(event) {
+    event.preventDefault(); // block default form submission
+
+    const address = document.getElementById('address').value;
+    const form = event.target;
+
+    if (!address.trim()) {
+      alert('Please enter an address.');
+      return;
+    }
+
+    const geocoder = new google.maps.Geocoder();
+
+    geocoder.geocode({ address: address }, function(results, status) {
+      if (status === 'OK') {
+        const location = results[0].geometry.location;
+        document.getElementById('latitude').value = location.lat();
+        document.getElementById('longitude').value = location.lng();
+
+        // Delay a tiny bit just to ensure values are set
+        setTimeout(() => {
+          form.submit();
+        }, 100);
+      } else if (status === "ZERO_RESULTS") {
+        alert('Invalid address: Address does not seem to exist, try again');
+      } else {
+        alert('Invalid address: ' + status);
+      }
+    });
+  }
+</script>
                   </div>
           </div>
           </div>

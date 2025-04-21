@@ -9,7 +9,30 @@
         <hr />
         <p><b>Date:</b> {{template_data.memory.date}}</p>
         <p><b>Description:</b> {{template_data.memory.description}}</p>
+        <p><strong>Address:</strong> <span id="resolved-address">Loading address...</span></p>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8-FHAr6PgSYJdNPUnK7HsaSK0bjDhMbM"></script>
+<script>
+  function reverseGeocode(lat, lng) {
+    const geocoder = new google.maps.Geocoder();
+    const latlng = { lat: parseFloat(lat), lng: parseFloat(lng) };
 
+    geocoder.geocode({ location: latlng }, function(results, status) {
+      if (status === 'OK' && results[0]) {
+        document.getElementById('resolved-address').textContent = results[0].formatted_address;
+      } else {
+        document.getElementById('resolved-address').textContent = 'Address not found';
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+   
+    const lat = parseFloat("{{ template_data.memory.latitude }}");
+    const lng = parseFloat("{{ template_data.memory.longitude }}");
+
+    reverseGeocode(lat, lng);
+  });
+</script>
 
 
       </div>

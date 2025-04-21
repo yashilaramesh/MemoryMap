@@ -30,6 +30,9 @@ def create_memory(request):
         memory = Memory()
         memory.title = request.POST['title']
         memory.date = request.POST['date']
+        memory.address = request.POST.get('address', '')
+        memory.latitude = request.POST.get('latitude', 0.0)
+        memory.longitude = request.POST.get('longitude', 0.0)
         memory.description = request.POST['description']
         memory.owner = request.user
 
