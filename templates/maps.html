@@ -30,7 +30,49 @@
     </a>
 
       <div>
-      <script src="{% static 'js/maps.js' %}"></script>
+        <script>
+          function initMap() {
+            const map = new google.maps.Map(document.getElementById("map"), {
+              center: { lat: 33.7756, lng: -84.3962 },
+              zoom: 13
+            });
+        
+            fetch("{% url 'memory_locations' %}")
+              .then(response => response.json())
+              .then(locations => {
+                locations.forEach((loc, index) => {
+                  const marker = new google.maps.Marker({
+                    position: { lat: loc.lat, lng: loc.lng },
+                    map,
+                    title: loc.title,
+                    icon: loc.is_owner
+                      ? "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+                      : "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
+                  });
+        
+                  const content = `
+                    <div style="max-width: 250px;">
+                      <h5>${loc.title}</h5>
+                      ${loc.image_url ? `<img src="${loc.image_url}" style="width:100%; border-radius:8px; margin-bottom:8px;">` : ''}
+                      <p><strong>Date:</strong> ${loc.date}</p>
+                      <p>${loc.description}</p>
+                      ${loc.business_label ? `<p><strong>Business:</strong> ${loc.business_label}</p>` : ''}
+                    </div>
+                  `;
+        
+                  const infowindow = new google.maps.InfoWindow({
+                    content: content
+                  });
+        
+                  marker.addListener("click", () => {
+                    infowindow.open(map, marker);
+                  });
+                });
+              });
+          }
+        
+          window.initMap = initMap;
+        </script>
         <script
           src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8-FHAr6PgSYJdNPUnK7HsaSK0bjDhMbM&callback=initMap"
           async
