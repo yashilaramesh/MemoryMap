@@ -32,7 +32,8 @@ def memory_locations(request):
         {
             'lat': memory.latitude,
             'lng': memory.longitude,
-            'title': memory.title
+            'title': memory.title,
+            'is_owner': memory.owner == request.user
         }
         for memory in memories
     ]

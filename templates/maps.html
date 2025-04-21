@@ -45,6 +45,9 @@
                   position: { lat: loc.lat, lng: loc.lng },
                   map,
                   title: loc.title || `Marker ${index + 1}`,
+                  icon: loc.is_owner
+              ? "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+              : "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
                 });
               });
             })
