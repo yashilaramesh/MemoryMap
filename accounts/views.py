@@ -150,7 +150,7 @@ def account(request):
                 request.user.username = new_username
                 request.user.save()
                 messages.success(request, "Your username has been updated successfully!")
-                return redirect('account')
+                return redirect('accounts:account')
 
         elif 'change_password' in request.POST:
             password_form = CustomPasswordChangeForm(request.user, request.POST)
@@ -161,7 +161,7 @@ def account(request):
                 request.user.save()
                 update_session_auth_hash(request, request.user)
                 messages.success(request, "Your password has been changed successfully.")
-                return redirect('account')
+                return redirect('accounts:account')
     else:
         username_form = ChangeUsernameForm()
         password_form = CustomPasswordChangeForm(request.user)
