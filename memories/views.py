@@ -8,7 +8,7 @@ def index(request):
     template_data = {'title': 'Memories'}
     if request.user.is_authenticated:
         user_memories = Memory.objects.filter(owner=request.user)
-        show_public = request.GET.get('public') == '1'
+        show_public = request.GET.get('public', '1') == '1'
         public_memories = Memory.objects.filter(is_public=True).exclude(owner=request.user) if show_public else []
         template_data['memories'] = list(user_memories) + list(public_memories)
         template_data['show_public'] = show_public
