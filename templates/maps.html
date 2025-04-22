@@ -1,5 +1,8 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
+
+{% block content %}
+<!-- <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -17,7 +20,7 @@
   {% csrf_token %}
   <script>
     const csrfToken = '{{ csrf_token }}';
-  </script>
+  </script> -->
 
   <div id="titleWrapper">
       <div id="title">Memories</div>
@@ -102,19 +105,7 @@
 
       </div>
 
-      <!-- list -->
-      <div id="listWrapper">
-        <!-- map it and make this link to detailed page -->
-        <div id="listContentWrapper">
-          <a
-            id="listLink"
-            href="detail.html"
-            style="text-decoration: none; color: white"
-          >
-            Memories list
-          </a>
-        </div>
-      </div>
+      
     </div>
     <!-- Chatbot Toggle Button (Logo) -->
     <img src="{% static 'images/travel_assistant_icon.png' %}" id="chat-toggle" id="chat-toggle" style="
@@ -196,5 +187,6 @@
 
     </script>
 
-  </body>
-</html>
+{% endblock %}
+  <!-- </body>
+</html> -->
