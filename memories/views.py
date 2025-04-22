@@ -77,7 +77,8 @@ def edit(request, id):
     
     if request.method == 'POST':
         memory.title = request.POST['title']
-        template_data['memory'] = memory
+        memory.date = request.POST['date']
+        memory.description = request.POST['description']
         
         # Handle image update
         if 'image' in request.FILES:
