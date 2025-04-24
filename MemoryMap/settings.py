@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,7 +41,10 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    'accounts',
+    'home',
     'memories',
+    'chatbot',
 ]
 
 MIDDLEWARE = [
@@ -55,9 +62,8 @@ ROOT_URLCONF = "MemoryMap.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / 'templates']
-        ,
         "APP_DIRS": True,
+        'DIRS': [BASE_DIR / "templates"],
         "OPTIONS": {
             "context_processors": [
                 "django.template.context_processors.debug",
@@ -101,6 +107,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = 'accounts.CustomUser'
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
@@ -117,9 +124,17 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = "/static/"
-STATICFILES_DIRS = [BASE_DIR / "static"]
+AUTH_USER_MODEL = 'accounts.CustomUser'
+import os
+
+STATIC_URL = '/static/'
+
+# Only needed if you have a global /static directory
+STATICFILES_DIRS = [BASE_DIR / 'static']
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'

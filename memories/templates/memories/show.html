@@ -2,22 +2,47 @@
 {% block content %}
 {% load static %}
 <div class="p-3">
-  <div class="container">
-    <div class="row mt-3">
-      <div class="col-md-6 mx-auto mb-3">
-        <h2>{{template_data.memory.title}}</h2>
-        <hr />
+  <div class="container">
+    <div class="row mt-3">
+      <div class="col-md-6 mx-auto mb-3">
+        <h2>{{template_data.memory.title}}</h2>
+        <hr />
         <p><b>Date:</b> {{template_data.memory.date}}</p>
-        <p><b>Description:</b> {{template_data.memory.description}}</p>
+        <p><b>Description:</b> {{template_data.memory.description}}</p>
+        <p><strong>Address:</strong> <span id="resolved-address">Loading address...</span></p>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8-FHAr6PgSYJdNPUnK7HsaSK0bjDhMbM"></script>
+<script>
+  function reverseGeocode(lat, lng) {
+    const geocoder = new google.maps.Geocoder();
+    const latlng = { lat: parseFloat(lat), lng: parseFloat(lng) };
 
+    geocoder.geocode({ location: latlng }, function(results, status) {
+      if (status === 'OK' && results[0]) {
+        document.getElementById('resolved-address').textContent = results[0].formatted_address;
+      } else {
+        document.getElementById('resolved-address').textContent = 'Address not found';
+      }
+    });
+  }
 
+  document.addEventListener('DOMContentLoaded', function () {
+   
+    const lat = parseFloat("{{ template_data.memory.latitude }}");
+    const lng = parseFloat("{{ template_data.memory.longitude }}");
 
-      </div>
-      <div class="col-md-6 mx-auto mb-3 text-center">
-        <img src="{% static 'img/about.jpg' %}"
-          class="rounded" />
-      </div>
-    </div>
-  </div>
+    reverseGeocode(lat, lng);
+  });
+</script>
+
+        <a class="btn btn-primary"
+        href="{% url 'memories.edit' id=template_data.memory.id %}">Edit
+        </a>
+        <a class="btn btn-danger" href="{% url 'memories.delete' id=template_data.memory.id %}">Delete</a>
+      </div>
+      <div class="col-md-6 mx-auto mb-3 text-center">
+        <img src="{{ template_data.memory.image.url }}" class="rounded img-fluid" />
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock content %}
