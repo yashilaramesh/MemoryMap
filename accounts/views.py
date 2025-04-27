@@ -94,7 +94,7 @@ def resetpassword(request):
             if match_count == 2:  # Both answers must match
                 user.set_password(form.cleaned_data['new_password'])
                 user.save()
-                return redirect('accounts/login')
+                return redirect('accounts:login')
             else:
                 template_data['error'] = "Incorrect security question answers."
 
